@@ -84,7 +84,10 @@ public class MovieDetailFrame extends JFrame
                     Image scaledImage = image.getScaledInstance(200, 280, Image.SCALE_SMOOTH);
                     imageLabel.setIcon(new ImageIcon(scaledImage));
                 }
-            } catch (IOException ignored) {}
+            } catch (IOException e)
+            {
+                System.err.println("Could not load poster: " + e.getMessage());
+            }
         } else
         {
             imageLabel.setText("No Image");

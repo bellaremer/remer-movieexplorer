@@ -14,7 +14,7 @@ public class MovieExplorerFrame extends JFrame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(900, 700);
 
-        JPanel mainPanel = new JPanel(new BorderLayout(3, 3));
+        final JPanel mainPanel = new JPanel(new BorderLayout(3, 3));
 
         // Top panel for search field and button
         JPanel searchPanel = new JPanel(new BorderLayout(2, 2));
