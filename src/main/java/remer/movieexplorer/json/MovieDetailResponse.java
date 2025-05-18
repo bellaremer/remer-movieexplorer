@@ -2,8 +2,7 @@ package remer.movieexplorer.json;
 
 import com.google.gson.annotations.SerializedName;
 
-public class MovieDetailResponse
-{
+public class MovieDetailResponse {
     @SerializedName("Title")
     public String title;
 

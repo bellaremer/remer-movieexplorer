@@ -13,6 +13,9 @@ public class Movie
     @SerializedName("imdbID")
     public String imdbId;
 
+    @SerializedName("Type")
+    public String type;
+
     @SerializedName("Poster")
     public String poster;
 }
