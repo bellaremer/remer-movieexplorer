@@ -14,7 +14,7 @@ public class MovieDetailFrame extends JFrame
 {
     public MovieDetailFrame(MovieDetailResponse movie)
     {
-        setTitle(movie.Title + " (" + movie.Year + ")");
+        setTitle(movie.title + " (" + movie.year + ")");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(650, 340);
 
@@ -28,17 +28,19 @@ public class MovieDetailFrame extends JFrame
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         infoPanel.setOpaque(false);
 
-        JLabel titleLabel = new JLabel("<html><b>" + movie.Title + "</b> <span style='color:gray;'>(" + movie.Year + ")</span></html>");
+        JLabel titleLabel = new JLabel("<html><b>"
+                        + movie.title + "</b> <span style='color:gray;'>("
+                        + movie.year + ")</span></html>");
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 22));
         infoPanel.add(titleLabel);
         infoPanel.add(Box.createVerticalStrut(12));
 
-        JLabel actorsLabel = new JLabel("<html><b>Actors:</b> " + movie.Actors + "</html>");
+        JLabel actorsLabel = new JLabel("<html><b>Actors:</b> " + movie.actors + "</html>");
         actorsLabel.setFont(new Font("SansSerif", Font.PLAIN, 15));
         infoPanel.add(actorsLabel);
         infoPanel.add(Box.createVerticalStrut(8));
 
-        JLabel genreLabel = new JLabel("<html><b>Genre:</b> " + movie.Genre + "</html>");
+        JLabel genreLabel = new JLabel("<html><b>Genre:</b> " + movie.genre + "</html>");
         genreLabel.setFont(new Font("SansSerif", Font.PLAIN, 15));
         infoPanel.add(genreLabel);
         infoPanel.add(Box.createVerticalStrut(8));
@@ -48,7 +50,7 @@ public class MovieDetailFrame extends JFrame
         infoPanel.add(ratingLabel);
         infoPanel.add(Box.createVerticalStrut(12));
 
-        JTextArea plotArea = new JTextArea(movie.Plot);
+        JTextArea plotArea = new JTextArea(movie.plot);
         plotArea.setLineWrap(true);
         plotArea.setWrapStyleWord(true);
         plotArea.setEditable(false);
@@ -71,11 +73,11 @@ public class MovieDetailFrame extends JFrame
         imageLabel.setOpaque(true);
         imageLabel.setBackground(new Color(245, 245, 245));
 
-        if (movie.Poster != null && !movie.Poster.equalsIgnoreCase("N/A"))
+        if (movie.poster != null && !movie.poster.equalsIgnoreCase("N/A"))
         {
             try
             {
-                URL url = new URL(movie.Poster);
+                URL url = new URL(movie.poster);
                 Image image = ImageIO.read(url);
                 if (image != null)
                 {

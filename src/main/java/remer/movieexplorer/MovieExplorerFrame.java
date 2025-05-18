@@ -6,13 +6,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class MovieExplorerFrame
+public class MovieExplorerFrame extends JFrame
 {
-    private static void createAndShowGUI()
+    public MovieExplorerFrame()
     {
-        JFrame frame = new JFrame("Movie Explorer");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(900, 700);
+        super("Movie Explorer");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(900, 700);
 
         JPanel mainPanel = new JPanel(new BorderLayout(3, 3));
 
@@ -37,7 +37,8 @@ public class MovieExplorerFrame
         // Shared action for both Enter key and button
         Runnable doSearch = () -> {
             String query = searchField.getText().trim();
-            if (!query.isEmpty()) {
+            if (!query.isEmpty())
+            {
                 controller.searchAndDisplay(query);
             }
         };
@@ -45,12 +46,15 @@ public class MovieExplorerFrame
         searchField.addActionListener((ActionEvent e) -> doSearch.run());
         searchButton.addActionListener((ActionEvent e) -> doSearch.run());
 
-        frame.setContentPane(mainPanel);
-        frame.setVisible(true);
+        setContentPane(mainPanel);
+        setLocationRelativeTo(null); // Center on screen
     }
 
     public static void main(String[] args)
     {
-        SwingUtilities.invokeLater(MovieExplorerFrame::createAndShowGUI);
+        SwingUtilities.invokeLater(() -> {
+            MovieExplorerFrame frame = new MovieExplorerFrame();
+            frame.setVisible(true);
+        });
     }
 }

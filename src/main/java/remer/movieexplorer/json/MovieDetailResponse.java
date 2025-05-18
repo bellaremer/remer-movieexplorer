@@ -1,12 +1,27 @@
 package remer.movieexplorer.json;
 
+import com.google.gson.annotations.SerializedName;
+
 public class MovieDetailResponse
 {
-    public String Title;
-    public String Year;
-    public String Genre;
-    public String Actors;
-    public String Plot;
-    public String Poster;
+    @SerializedName("Title")
+    public String title;
+
+    @SerializedName("Year")
+    public String year;
+
+    @SerializedName("Genre")
+    public String genre;
+
+    @SerializedName("Actors")
+    public String actors;
+
+    @SerializedName("Plot")
+    public String plot;
+
+    @SerializedName("Poster")
+    public String poster;
+
+    @SerializedName("imdbRating")
     public String imdbRating;
 }

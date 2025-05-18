@@ -49,7 +49,10 @@ public class MovieController
         int count = 0;
         for (Movie movie : response.Search)
         {
-            if (count >= 9) break; // Show only 9 posters
+            if (count >= 9)
+            {
+                break; // Show only 9 posters
+            }
 
             JLabel label = new JLabel("<html>" + movie.Title + " (" + movie.Year + ")</html>", JLabel.CENTER);
             label.setVerticalTextPosition(JLabel.BOTTOM);
@@ -66,7 +69,10 @@ public class MovieController
                         ImageIcon icon = new ImageIcon(img.getScaledInstance(150, 220, Image.SCALE_SMOOTH));
                         label.setIcon(icon);
                     }
-                } catch (IOException ignored) {}
+                } catch (IOException e)
+                {
+                    System.err.println("Could not load poster for " + movie.Title + ": " + e.getMessage());
+                }
             }
 
             // Add mouse listener for detail popup
@@ -93,9 +99,9 @@ public class MovieController
         gridPanel.repaint();
     }
 
-    private void showMovieDetail(String imdbID)
+    private void showMovieDetail(String imdbId)
     {
-        service.getMovieDetail(imdbID, apiKey.get())
+        service.getMovieDetail(imdbId, apiKey.get())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.from(SwingUtilities::invokeLater))
                 .subscribe(
