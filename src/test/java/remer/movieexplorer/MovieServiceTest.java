@@ -24,7 +24,7 @@ public class MovieServiceTest
         ).blockingGet();
 
         // then
-        assertNotNull(response.Search, "Search results should not be null");
-        assertTrue(response.Search.size() > 0, "Should return at least one movie");
+        assertNotNull(response.search, "Search results should not be null");
+        assertTrue(response.search.size() > 0, "Should return at least one movie");
     }
 }

@@ -40,14 +40,14 @@ public class MovieController
         gridPanel.removeAll();
         gridPanel.setLayout(new GridLayout(3, 3, 2, 2));
 
-        if (response.Search == null || response.Search.isEmpty())
+        if (response.search == null || response.search.isEmpty())
         {
             showError("No results found.");
             return;
         }
 
         int count = 0;
-        for (Movie movie : response.Search)
+        for (Movie movie : response.search)
         {
             if (count >= 9)
             {
