@@ -1,9 +1,18 @@
 package remer.movieexplorer.json;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Movie
 {
-    public String Title;
-    public String Year;
-    public String imdbID;
-    public String Poster;
+    @SerializedName("Title")
+    public String title;
+
+    @SerializedName("Year")
+    public String year;
+
+    @SerializedName("imdbID")
+    public String imdbId;
+
+    @SerializedName("Poster")
+    public String poster;
 }

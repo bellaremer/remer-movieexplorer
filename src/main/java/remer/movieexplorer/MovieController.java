@@ -54,16 +54,16 @@ public class MovieController
                 break; // Show only 9 posters
             }
 
-            JLabel label = new JLabel("<html>" + movie.Title + " (" + movie.Year + ")</html>", JLabel.CENTER);
+            JLabel label = new JLabel("<html>" + movie.title + " (" + movie.year + ")</html>", JLabel.CENTER);
             label.setVerticalTextPosition(JLabel.BOTTOM);
             label.setHorizontalTextPosition(JLabel.CENTER);
 
             // Set the poster image if available
-            if (movie.Poster != null && !movie.Poster.equalsIgnoreCase("N/A"))
+            if (movie.poster != null && !movie.poster.equalsIgnoreCase("N/A"))
             {
                 try
                 {
-                    Image img = ImageIO.read(new URL(movie.Poster));
+                    Image img = ImageIO.read(new URL(movie.poster));
                     if (img != null)
                     {
                         ImageIcon icon = new ImageIcon(img.getScaledInstance(150, 220, Image.SCALE_SMOOTH));
@@ -71,7 +71,7 @@ public class MovieController
                     }
                 } catch (IOException e)
                 {
-                    System.err.println("Could not load poster for " + movie.Title + ": " + e.getMessage());
+                    System.err.println("Could not load poster for " + movie.title + ": " + e.getMessage());
                 }
             }
 
@@ -82,7 +82,7 @@ public class MovieController
                 @Override
                 public void mouseClicked(java.awt.event.MouseEvent evt)
                 {
-                    showMovieDetail(movie.imdbID);
+                    showMovieDetail(movie.imdbId);
                 }
             });
 
