@@ -32,16 +32,9 @@ public class MovieExplorerFrame extends JFrame
 
         MovieService service = new MovieServiceFactory().getService();
         ApiKey apiKey = new ApiKey();
-        MovieController controller = new MovieController(gridPanel, service, apiKey);
+        MovieController controller = new MovieController(gridPanel, service, apiKey, searchField);
 
-        // Shared action for both Enter key and button
-        Runnable doSearch = () -> {
-            String query = searchField.getText().trim();
-            if (!query.isEmpty())
-            {
-                controller.searchAndDisplay(query);
-            }
-        };
+        Runnable doSearch = controller::searchAndDisplay;
 
         searchField.addActionListener((ActionEvent e) -> doSearch.run());
         searchButton.addActionListener((ActionEvent e) -> doSearch.run());

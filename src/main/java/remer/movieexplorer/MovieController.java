@@ -16,22 +16,31 @@ public class MovieController
     private final JPanel gridPanel;
     private final MovieService service;
     private final ApiKey apiKey;
+    private final JTextField searchField;
 
-    public MovieController(JPanel gridPanel, MovieService service, ApiKey apiKey)
+    public MovieController(JPanel gridPanel, MovieService service, ApiKey apiKey, JTextField searchField)
     {
         this.gridPanel = gridPanel;
         this.service = service;
         this.apiKey = apiKey;
+        this.searchField = searchField;
     }
 
-    public void searchAndDisplay(String query)
+    public void searchAndDisplay()
     {
+        String query = searchField.getText().trim();
+        if (query.isEmpty())
+        {
+            showError("please enter a search term.");
+            return;
+        }
+
         service.searchMovies(query, apiKey.get())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.from(SwingUtilities::invokeLater))
                 .subscribe(
                         this::handleResponse,
-                        e -> showError("Error: " + e.getMessage())
+                        e -> e.printStackTrace()
                 );
     }
 
@@ -71,7 +80,7 @@ public class MovieController
                     }
                 } catch (IOException e)
                 {
-                    System.err.println("Could not load poster for " + movie.title + ": " + e.getMessage());
+                    e.printStackTrace();
                 }
             }
 
@@ -116,10 +125,6 @@ public class MovieController
 
     private void showError(String message)
     {
-        gridPanel.removeAll();
-        gridPanel.setLayout(new GridLayout(1, 1));
-        gridPanel.add(new JLabel(message, JLabel.CENTER));
-        gridPanel.revalidate();
-        gridPanel.repaint();
+        JOptionPane.showMessageDialog(gridPanel, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 }

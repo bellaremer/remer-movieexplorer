@@ -86,7 +86,7 @@ public class MovieDetailFrame extends JFrame
                 }
             } catch (IOException e)
             {
-                System.err.println("Could not load poster: " + e.getMessage());
+                e.printStackTrace();
             }
         } else
         {
