@@ -6,10 +6,10 @@ Movie Explorer allows users to search for movies by title, view a grid of movie 
 
 ## Screenshots
 ### Main Search Screen
-![Main Screen](src/screenshots/main_screenshot.png)
+![Main Screen](screenshots/main_screenshot.png)
 
 ### Movie Details Popup
-![Details Popup](src/screenshots/detail_screenshot.png)
+![Details Popup](screenshots/detail_screenshot.png)
 
 ## Authors
 **Bella Remer**
