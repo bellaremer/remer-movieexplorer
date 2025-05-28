@@ -24,4 +24,7 @@ public class MovieDetailResponse
 
     @SerializedName("imdbRating")
     public String imdbRating;
+
+    @SerializedName("imdbID")
+    public String imdbId;
 }
