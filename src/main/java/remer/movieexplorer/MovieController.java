@@ -17,13 +17,22 @@ public class MovieController
     private final MovieService service;
     private final ApiKey apiKey;
     private final JTextField searchField;
+    private final StreamingInfoService streamingService;
+    private final String streamingApiKey;
 
-    public MovieController(JPanel gridPanel, MovieService service, ApiKey apiKey, JTextField searchField)
+    public MovieController(JPanel gridPanel,
+                           MovieService service,
+                           ApiKey apiKey,
+                           JTextField searchField,
+                           StreamingInfoService streamingService,
+                           String streamingApiKey)
     {
         this.gridPanel = gridPanel;
         this.service = service;
         this.apiKey = apiKey;
         this.searchField = searchField;
+        this.streamingService = streamingService;
+        this.streamingApiKey = streamingApiKey;
     }
 
     public void searchAndDisplay()
@@ -115,7 +124,7 @@ public class MovieController
                 .observeOn(Schedulers.from(SwingUtilities::invokeLater))
                 .subscribe(
                         movieDetail -> {
-                            MovieDetailFrame detailFrame = new MovieDetailFrame(movieDetail);
+                            MovieDetailFrame detailFrame = new MovieDetailFrame(movieDetail, streamingService, streamingApiKey);
                             detailFrame.setLocationRelativeTo(null);
                             detailFrame.setVisible(true);
                         },

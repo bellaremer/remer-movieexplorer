@@ -5,7 +5,6 @@ import remer.movieexplorer.json.MovieDetailResponse;
 import remer.movieexplorer.json.MovieSearchResponse;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-
 public interface MovieService
 {
     @GET("/")
@@ -19,5 +18,4 @@ public interface MovieService
             @Query("i") String imdbId,
             @Query("apikey") String apiKey
     );
-
 }
