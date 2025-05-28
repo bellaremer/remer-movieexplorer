@@ -131,7 +131,10 @@ public class MovieDetailFrame extends JFrame
                             error.printStackTrace();
                             // Show detailed error message to user
                             String msg = (error.getMessage() != null) ? error.getMessage() : error.toString();
-                            JOptionPane.showMessageDialog(this, "Streaming info error: " + msg, "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(
+                                    this,
+                                    "Streaming info error: " + msg,
+                                    "Error", JOptionPane.ERROR_MESSAGE);
                             showStreamingError();
                         }
                 );
@@ -149,14 +152,25 @@ public class MovieDetailFrame extends JFrame
         } else {
             streamingPanel.add(new JLabel("<html><b>Available to Stream:</b></html>"));
             for (StreamingOption option : options)
-            {
-                StringBuilder sb = new StringBuilder();
+            {StringBuilder sb = new StringBuilder();
                 sb.append("<html>")
                         .append(option.serviceName != null ? option.serviceName : "Unknown");
-                if (option.type != null) sb.append(" (").append(option.type).append(")");
-                if (option.quality != null) sb.append(" [").append(option.quality).append("]");
-                if (option.price != null) sb.append(" - ").append(option.price);
-                if (option.link != null) sb.append(" <a href='").append(option.link).append("'>Watch</a>");
+                if (option.type != null)
+                {
+                    sb.append(" (").append(option.type).append(")");
+                }
+                if (option.quality != null)
+                {
+                    sb.append(" [").append(option.quality).append("]");
+                }
+                if (option.price != null)
+                {
+                    sb.append(" - ").append(option.price);
+                }
+                if (option.link != null)
+                {
+                    sb.append(" <a href='").append(option.link).append("'>Watch</a>");
+                }
                 sb.append("</html>");
                 JLabel lbl = new JLabel(sb.toString());
                 streamingPanel.add(lbl);

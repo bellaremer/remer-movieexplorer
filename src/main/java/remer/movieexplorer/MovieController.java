@@ -124,7 +124,10 @@ public class MovieController
                 .observeOn(Schedulers.from(SwingUtilities::invokeLater))
                 .subscribe(
                         movieDetail -> {
-                            MovieDetailFrame detailFrame = new MovieDetailFrame(movieDetail, streamingService, streamingApiKey);
+                            MovieDetailFrame detailFrame = new MovieDetailFrame(
+                                    movieDetail,
+                                    streamingService,
+                                    streamingApiKey);
                             detailFrame.setLocationRelativeTo(null);
                             detailFrame.setVisible(true);
                         },
