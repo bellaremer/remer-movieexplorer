@@ -152,7 +152,8 @@ public class MovieDetailFrame extends JFrame
         } else {
             streamingPanel.add(new JLabel("<html><b>Available to Stream:</b></html>"));
             for (StreamingOption option : options)
-            {StringBuilder sb = new StringBuilder();
+            {
+                StringBuilder sb = new StringBuilder();
                 sb.append("<html>")
                         .append(option.serviceName != null ? option.serviceName : "Unknown");
                 if (option.type != null)
