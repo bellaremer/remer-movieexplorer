@@ -1,6 +1,9 @@
 package remer.movieexplorer;
 
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import remer.movieexplorer.json.MovieDetailResponse;
+import remer.movieexplorer.json.ShowResponse;
+import remer.movieexplorer.json.StreamingOption;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -9,14 +12,20 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 public class MovieDetailFrame extends JFrame
 {
-    public MovieDetailFrame(MovieDetailResponse movie)
+    private final JPanel infoPanel;
+    private final JPanel streamingPanel;
+
+    public MovieDetailFrame(MovieDetailResponse movie,
+                            StreamingInfoService streamingService,
+                            String streamingApiKey)
     {
         setTitle(movie.title + " (" + movie.year + ")");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(650, 340);
+        setSize(750, 400);
 
         // Main content panel with padding
         JPanel content = new JPanel(new BorderLayout(20, 0));
@@ -24,7 +33,7 @@ public class MovieDetailFrame extends JFrame
         setContentPane(content);
 
         // Info Panel (Left)
-        JPanel infoPanel = new JPanel();
+        infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         infoPanel.setOpaque(false);
 
@@ -59,6 +68,13 @@ public class MovieDetailFrame extends JFrame
         plotArea.setBorder(null);
         infoPanel.add(new JLabel("<html><b>Plot:</b></html>"));
         infoPanel.add(plotArea);
+
+        // Streaming Panel (Left, below info)
+        streamingPanel = new JPanel();
+        streamingPanel.setLayout(new BoxLayout(streamingPanel, BoxLayout.Y_AXIS));
+        streamingPanel.setOpaque(false);
+        streamingPanel.setBorder(new EmptyBorder(14, 0, 0, 0));
+        infoPanel.add(streamingPanel);
 
         content.add(infoPanel, BorderLayout.CENTER);
 
@@ -104,5 +120,100 @@ public class MovieDetailFrame extends JFrame
             int y = screenSize.height - getHeight() - 80;
             setLocation(x, y);
         });
+
+        // Get and display the streaming info
+        String host = "streaming-availability.p.rapidapi.com";
+        streamingService.getStreamingInfo(movie.imdbId, "us", streamingApiKey, host)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.from(SwingUtilities::invokeLater))
+                .subscribe(
+                        this::showStreamingOptions,
+                        error -> {
+                            error.printStackTrace();
+                            // Show detailed error message to user
+                            String msg = (error.getMessage() != null) ? error.getMessage() : error.toString();
+                            JOptionPane.showMessageDialog(
+                                    this,
+                                    "Streaming info error: " + msg,
+                                    "Error", JOptionPane.ERROR_MESSAGE);
+                            showStreamingError();
+                        }
+                );
+    }
+
+    private void showStreamingOptions(ShowResponse response)
+    {
+        System.out.println("ShowResponse: " + response);
+
+        streamingPanel.removeAll();
+        List<StreamingOption> options = null;
+        if (response.streamingOptions != null)
+        {
+            options = response.streamingOptions.get("us");
+        }
+        if (options == null || options.isEmpty())
+        {
+            streamingPanel.add(new JLabel("<html><i>Not available to stream.</i></html>"));
+        } else {
+            streamingPanel.add(new JLabel("Available to Stream:"));
+            for (StreamingOption option : options)
+            {
+                StringBuilder sb = new StringBuilder();
+                String serviceName = "Unknown";
+                if (option.service != null && option.service.has("name")) {
+                    serviceName = option.service.get("name").getAsString();
+                }
+
+                sb.append("").append(serviceName);
+                if (option.type != null)
+                {
+                    sb.append(" (").append(option.type).append(")");
+                }
+                if (option.quality != null)
+                {
+                    sb.append(" [").append(option.quality).append("]");
+                }
+                if (option.price != null && option.price.formatted != null)
+                {
+                sb.append(" - ").append(option.price.formatted);
+                }
+                if (option.link != null)
+                {
+                    sb.append(" Watch");
+                }
+                sb.append("");
+
+                JLabel lbl = new JLabel("<html><u>" + sb.toString() + "</u></html>");
+                lbl.setForeground(Color.BLUE);
+                lbl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+                if (option.link != null && !option.link.isEmpty()) {
+                    String url = option.link;
+                    lbl.addMouseListener(new java.awt.event.MouseAdapter() {
+                        @Override
+                        public void mouseClicked(java.awt.event.MouseEvent e) {
+                            try {
+                                Desktop.getDesktop().browse(new java.net.URI(url));
+                            } catch (Exception ex) {
+                                JOptionPane.showMessageDialog(streamingPanel,
+                                        "Could not open link: " + ex.getMessage());
+                            }
+                        }
+                    });
+                }
+                streamingPanel.add(lbl);
+
+            }
+        }
+        streamingPanel.revalidate();
+        streamingPanel.repaint();
+    }
+
+    private void showStreamingError()
+    {
+        streamingPanel.removeAll();
+        streamingPanel.add(new JLabel("<html><i>Streaming info unavailable.</i></html>"));
+        streamingPanel.revalidate();
+        streamingPanel.repaint();
     }
 }

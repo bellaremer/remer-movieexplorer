@@ -31,8 +31,19 @@ public class MovieExplorerFrame extends JFrame
         mainPanel.add(scrollPane, BorderLayout.CENTER);
 
         MovieService service = new MovieServiceFactory().getService();
-        ApiKey apiKey = new ApiKey();
-        MovieController controller = new MovieController(gridPanel, service, apiKey, searchField);
+        ApiKey apikey = new ApiKey("apikey");
+        ApiKey streamingApiKey = new ApiKey("streaming_api_key");
+
+        StreamingInfoService streamingService = new StreamingInfoServiceFactory().getService();
+
+        MovieController controller = new MovieController(
+                gridPanel,
+                service,
+                apikey,
+                searchField,
+                streamingService,
+                streamingApiKey.get()
+        );
 
         Runnable doSearch = controller::searchAndDisplay;
 
