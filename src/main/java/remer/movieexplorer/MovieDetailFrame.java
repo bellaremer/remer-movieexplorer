@@ -195,7 +195,8 @@ public class MovieDetailFrame extends JFrame
                             try {
                                 Desktop.getDesktop().browse(new java.net.URI(url));
                             } catch (Exception ex) {
-                                JOptionPane.showMessageDialog(streamingPanel, "Could not open link: " + ex.getMessage());
+                                JOptionPane.showMessageDialog(streamingPanel,
+                                        "Could not open link: " + ex.getMessage());
                             }
                         }
                     });
