@@ -13,7 +13,8 @@ When viewing movie details, Movie Explorer gets real-time streaming availability
 ![Details Popup](screenshots/detail_screenshot.png)
 
 ### Movie Streaming Screen 
-![Streaming Screen](screenshots/streaming_screenshot.png)
+![Streaming Information](screenshots/streaming_screenshot.png)
+
 
 ## Authors
 **Bella Remer**

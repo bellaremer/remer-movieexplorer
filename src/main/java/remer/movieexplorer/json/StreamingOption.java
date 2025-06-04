@@ -1,11 +1,12 @@
 package remer.movieexplorer.json;
 
+import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 
 public class StreamingOption
 {
     @SerializedName("service")
-    public String service;
+    public JsonObject service;
 
     @SerializedName("type")
     public String type;
@@ -17,7 +18,7 @@ public class StreamingOption
     public String quality;
 
     @SerializedName("price")
-    public String price;
+    public Price price;
 
     @SerializedName("addOn")
     public String addOn;

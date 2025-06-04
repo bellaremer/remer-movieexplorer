@@ -25,7 +25,7 @@ public class MovieDetailFrame extends JFrame
     {
         setTitle(movie.title + " (" + movie.year + ")");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(650, 380);
+        setSize(750, 400);
 
         // Main content panel with padding
         JPanel content = new JPanel(new BorderLayout(20, 0));
@@ -123,7 +123,7 @@ public class MovieDetailFrame extends JFrame
 
         // Get and display the streaming info
         String host = "streaming-availability.p.rapidapi.com";
-        streamingService.getStreamingInfo("movie", movie.imdbId, streamingApiKey, host)
+        streamingService.getStreamingInfo(movie.imdbId, "us", streamingApiKey, host)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.from(SwingUtilities::invokeLater))
                 .subscribe(
@@ -146,17 +146,25 @@ public class MovieDetailFrame extends JFrame
         System.out.println("ShowResponse: " + response);
 
         streamingPanel.removeAll();
-        List<StreamingOption> options = (response != null) ? response.streamingOptions : null;
+        List<StreamingOption> options = null;
+        if (response.streamingOptions != null)
+        {
+            options = response.streamingOptions.get("us");
+        }
         if (options == null || options.isEmpty())
         {
             streamingPanel.add(new JLabel("<html><i>Not available to stream.</i></html>"));
         } else {
-            streamingPanel.add(new JLabel("<html><b>Available to Stream:</b></html>"));
+            streamingPanel.add(new JLabel("Available to Stream:"));
             for (StreamingOption option : options)
             {
                 StringBuilder sb = new StringBuilder();
-                sb.append("<html>")
-                        .append(option.service != null ? option.service : "Unknown");
+                String serviceName = "Unknown";
+                if (option.service != null && option.service.has("name")) {
+                    serviceName = option.service.get("name").getAsString();
+                }
+
+                sb.append("").append(serviceName);
                 if (option.type != null)
                 {
                     sb.append(" (").append(option.type).append(")");
@@ -165,17 +173,35 @@ public class MovieDetailFrame extends JFrame
                 {
                     sb.append(" [").append(option.quality).append("]");
                 }
-                if (option.price != null)
+                if (option.price != null && option.price.formatted != null)
                 {
-                    sb.append(" - ").append(option.price);
+                sb.append(" - ").append(option.price.formatted);
                 }
                 if (option.link != null)
                 {
-                    sb.append(" <a href='").append(option.link).append("'>Watch</a>");
+                    sb.append(" Watch");
                 }
-                sb.append("</html>");
-                JLabel lbl = new JLabel(sb.toString());
+                sb.append("");
+
+                JLabel lbl = new JLabel("<html><u>" + sb.toString() + "</u></html>");
+                lbl.setForeground(Color.BLUE);
+                lbl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+                if (option.link != null && !option.link.isEmpty()) {
+                    String url = option.link;
+                    lbl.addMouseListener(new java.awt.event.MouseAdapter() {
+                        @Override
+                        public void mouseClicked(java.awt.event.MouseEvent e) {
+                            try {
+                                Desktop.getDesktop().browse(new java.net.URI(url));
+                            } catch (Exception ex) {
+                                JOptionPane.showMessageDialog(streamingPanel, "Could not open link: " + ex.getMessage());
+                            }
+                        }
+                    });
+                }
                 streamingPanel.add(lbl);
+
             }
         }
         streamingPanel.revalidate();

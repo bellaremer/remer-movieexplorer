@@ -5,14 +5,16 @@ import remer.movieexplorer.json.ShowResponse;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface StreamingInfoService
 {
-    @GET("shows/{type}/{id}")
+    @GET("shows/{imdbId}")
     Single<ShowResponse> getStreamingInfo(
-            @Path("type") String type,
-            @Path("id") String imdbId,
-            @Header("x-rapidapi-key") String apiKey,
-            @Header("x-rapidapi-host") String host
+            @Path("imdbId") String imdbId,
+            @Query("country") String country,
+            @Header("X-RapidAPI-Key") String apiKey,
+            @Header("X-RapidAPI-Host") String host
     );
+
 }
