@@ -9,7 +9,7 @@ public class StreamingInfoServiceFactory
     public StreamingInfoService getService()
     {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.movieofthenight.com/")
+                .baseUrl("https://streaming-availability.p.rapidapi.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build();

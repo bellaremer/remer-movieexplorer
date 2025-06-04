@@ -1,8 +1,9 @@
 # Movie Explorer
-A simple Java application for searching movies and viewing details using the OMDb API.
+A simple Java application for searching movies and viewing details using the OMDb API and RapidAPI's Streaming Availability service.
 
 ## Description
 Movie Explorer allows users to search for movies by title, view a grid of movie posters, and click on any movie to see detailed information including plot, actors, genre, and IMDb rating. The app uses RxJava and Retrofit for asynchronous API calls and displays results in a modern Swing GUI.
+When viewing movie details, Movie Explorer gets real-time streaming availability for each title using the Streaming Availability API on RapidAPI. This will show which platforms the movie is available on, including service name, type (subscription, rent, buy), quality, price, and a direct link to watch.
 
 ## Screenshots
 ### Main Search Screen
@@ -10,6 +11,9 @@ Movie Explorer allows users to search for movies by title, view a grid of movie 
 
 ### Movie Details Popup
 ![Details Popup](screenshots/detail_screenshot.png)
+
+### Movie Streaming Screen 
+![Streaming Screen](screenshots/streaming_screenshot.png)
 
 ## Authors
 **Bella Remer**

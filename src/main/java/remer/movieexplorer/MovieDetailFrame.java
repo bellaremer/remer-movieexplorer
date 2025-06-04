@@ -122,7 +122,8 @@ public class MovieDetailFrame extends JFrame
         });
 
         // Get and display the streaming info
-        streamingService.getStreamingInfo(movie.imdbId, streamingApiKey)
+        String host = "streaming-availability.p.rapidapi.com";
+        streamingService.getStreamingInfo("movie", movie.imdbId, streamingApiKey, host)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.from(SwingUtilities::invokeLater))
                 .subscribe(
@@ -155,7 +156,7 @@ public class MovieDetailFrame extends JFrame
             {
                 StringBuilder sb = new StringBuilder();
                 sb.append("<html>")
-                        .append(option.serviceName != null ? option.serviceName : "Unknown");
+                        .append(option.service != null ? option.service : "Unknown");
                 if (option.type != null)
                 {
                     sb.append(" (").append(option.type).append(")");
